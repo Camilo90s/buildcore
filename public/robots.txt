@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # ⚠️ Si cambias el dominio, actualízalo aquí y en "site" de astro.config.mjs
-Sitemap: https://bakery-landing.vercel.app/sitemap-index.xml
+Sitemap: https://buildcore-phi.vercel.app/sitemap-index.xml

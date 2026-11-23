@@ -25,8 +25,8 @@ pnpm check        # revisión de tipos
 
 ## Deploy en Vercel
 
-Importa el repo en [vercel.com/new](https://vercel.com/new) y pulsa **Deploy** sin cambiar nada: Vercel detecta Astro
-y usa pnpm 10 por el `pnpm-lock.yaml`. Si la URL final no es `bakery-landing.vercel.app`, cámbiala en
+Importa el repo en [vercel.com/new](https://vercel.com/new) y pulsa **Deploy** sin cambiar nada (hoy está desplegado en https://buildcore-phi.vercel.app desde el repo `buildcore`): Vercel detecta Astro
+y usa pnpm 10 por el `pnpm-lock.yaml`. Si cambias de dominio, cámbiala en
 `astro.config.mjs` (`site`) y en `public/robots.txt`.
 
 ## Estructura

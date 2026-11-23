@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   // ⚠️ Si Vercel te asigna otra URL o usas un dominio propio, cámbiala aquí y en public/robots.txt.
-  site: 'https://bakery-landing.vercel.app',
+  site: 'https://buildcore-phi.vercel.app',
   trailingSlash: 'ignore',
 
   integrations: [sitemap()],

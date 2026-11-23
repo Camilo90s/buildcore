@@ -1,21 +1,60 @@
 ---
 import Logo from './Logo.astro';
-import ArrowRight from './ArrowRight.astro';
-import { nav } from '../data/site';
+import Icon from './Icon.astro';
+import { contact, nav, social } from '../data/site';
 ---
 
+<!-- Barra superior -->
+<div class="bg-cocoa text-[13.5px] text-white/90">
+  <div class="container-x flex h-[40px] items-center justify-between lg:h-[45px]">
+    <ul class="flex items-center gap-6 lg:gap-[46px]">
+      {
+        contact.map((item, i) => (
+          <li class:list={['items-center gap-2.5', i === 0 ? 'flex' : i === 1 ? 'hidden sm:flex' : 'hidden md:flex']}>
+            <Icon name={item.icon} class="h-[15px] w-[15px] text-brand-light" />
+            {item.href ? (
+              <a href={item.href} class="font-medium transition-colors hover:text-brand-light">
+                {item.label}
+              </a>
+            ) : (
+              <span class="font-medium">{item.label}</span>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="flex items-center gap-2.5 lg:gap-3">
+      {
+        social.map((s) => (
+          <li>
+            <a
+              href={s.href}
+              target="_blank"
+              rel="noopener"
+              aria-label={s.label}
+              class="grid h-[28px] w-[28px] place-items-center rounded-full border border-white/40 text-white transition-[background-color,border-color,color,translate] duration-300 hover:-translate-y-0.5 hover:border-brand hover:bg-brand"
+            >
+              <Icon name={s.icon} class="h-[15px] w-[15px]" strokeWidth={2.2} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
 <header
-  class="sticky top-0 z-50 bg-[#fbfcfe] shadow-[0_1px_0_rgb(15_23_42/0.06),0_8px_20px_-14px_rgb(15_23_42/0.35)]"
+  data-site-header
+  data-scrolled="false"
+  class="sticky top-0 z-50 bg-white transition-[background-color,box-shadow] duration-300 data-[scrolled=true]:bg-white/90 data-[scrolled=true]:shadow-[0_12px_30px_-18px_rgb(43_17_4/0.45)] data-[scrolled=true]:backdrop-blur-md data-[scrolled=true]:backdrop-saturate-150"
 >
-  <div
-    class="mx-auto flex h-[72px] max-w-[1440px] items-center px-5 sm:px-8 lg:h-[96px] xl:h-[114px] xl:px-[52px]"
-  >
-    <a href="#home" class="shrink-0" aria-label="BuildCore Construction — Home">
+  <div class="container-x flex h-[72px] items-center lg:h-[100px]">
+    <a href="#home" class="shrink-0" aria-label="Bakery.com — Home">
       <Logo />
     </a>
 
-    <nav aria-label="Main navigation" class="ml-auto hidden xl:block">
-      <ul class="flex items-center gap-10 min-[1400px]:gap-[58px]">
+    <nav aria-label="Main navigation" class="ml-auto hidden lg:block">
+      <ul class="flex items-center gap-[28px] xl:gap-[34px]">
         {
           nav.map((item, i) => (
             <li>
@@ -23,7 +62,7 @@ import { nav } from '../data/site';
                 href={item.href}
                 data-nav-link
                 aria-current={i === 0 ? 'true' : undefined}
-                class="relative block py-2 text-[17.5px] font-medium text-[#4d4f53] transition-colors after:absolute after:inset-x-0 after:top-[calc(100%+9px)] after:h-[2px] after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-300 hover:text-ink aria-[current=true]:font-semibold aria-[current=true]:text-ink aria-[current=true]:after:scale-x-100"
+                class="relative block py-1 text-[17px] font-medium text-[#3b3d44] transition-colors duration-300 after:absolute after:inset-x-0 after:top-[calc(100%+8px)] after:h-[2.5px] after:origin-left after:scale-x-0 after:rounded-full after:bg-brand after:transition-transform after:duration-500 after:ease-out-expo hover:text-brand aria-[current=true]:font-semibold aria-[current=true]:text-[#c4510a] aria-[current=true]:after:scale-x-100"
               >
                 {item.label}
               </a>
@@ -33,63 +72,77 @@ import { nav } from '../data/site';
       </ul>
     </nav>
 
-    <div class="ml-auto flex items-center gap-3 xl:ml-10 min-[1400px]:ml-[58px]">
+    <div class="ml-auto flex items-center gap-2 lg:ml-[39px] lg:gap-[16px]">
       <a
-        href="#contact"
-        class="hidden h-[46px] items-center gap-6 rounded-[4px] bg-brand px-6 font-display text-[15px] font-bold tracking-[0.01em] text-[#1d1505] uppercase shadow-[0_6px_16px_-8px_rgb(246_176_36/0.7)] transition-colors hover:bg-brand-600 sm:inline-flex lg:h-[52px] xl:h-[58px] xl:px-[30px] xl:text-[17px]"
+        href="#menu"
+        aria-label="Search our menu"
+        class="grid h-10 w-10 place-items-center rounded-full text-[#2a2c33] transition-colors hover:bg-brand-50 hover:text-brand"
       >
-        Get a quote
-        <ArrowRight class="h-[18px] w-[18px]" />
+        <Icon name="search" class="h-[21px] w-[21px]" strokeWidth={2.2} />
       </a>
-
+      <a href="#menu" class="btn btn-primary hidden h-[42px] gap-2.5 px-[20px] text-[14.5px] sm:inline-flex">
+        Order Now
+        <Icon name="arrow" class="arrow h-4 w-4" strokeWidth={2.4} />
+      </a>
       <button
         type="button"
-        class="group inline-flex h-11 w-11 items-center justify-center rounded-[4px] text-ink hover:bg-black/5 xl:hidden"
+        class="group grid h-10 w-10 place-items-center rounded-full text-ink transition-colors hover:bg-brand-50 lg:hidden"
         aria-controls="mobile-menu"
         aria-expanded="false"
         aria-label="Open menu"
         data-menu-toggle
       >
-        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <path class="group-aria-expanded:hidden" d="M4 7h16M4 12h16M4 17h16"></path>
-          <path class="hidden group-aria-expanded:block" d="M6 6l12 12M18 6 6 18"></path>
-        </svg>
+        <span class="relative block h-[14px] w-[22px]" aria-hidden="true">
+          <span class="absolute top-0 left-0 h-[2px] w-full rounded bg-current transition-transform duration-300 ease-out-expo group-aria-expanded:translate-y-[6px] group-aria-expanded:rotate-45"></span>
+          <span class="absolute top-[6px] left-0 h-[2px] w-full rounded bg-current transition-opacity duration-200 group-aria-expanded:opacity-0"></span>
+          <span class="absolute top-[12px] left-0 h-[2px] w-full rounded bg-current transition-transform duration-300 ease-out-expo group-aria-expanded:-translate-y-[6px] group-aria-expanded:-rotate-45"></span>
+        </span>
       </button>
     </div>
   </div>
 
+  <!-- Barra de progreso de lectura -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-[3px]" aria-hidden="true">
+    <div class="scroll-progress h-full w-full bg-brand"></div>
+  </div>
+
   <div
     id="mobile-menu"
-    class="absolute inset-x-0 top-full border-t border-line bg-white shadow-[0_18px_30px_-18px_rgb(2_20_32/0.45)] xl:hidden"
-    hidden
+    data-open="false"
+    inert
+    class="invisible absolute inset-x-0 top-full -translate-y-2 border-t border-line bg-white opacity-0 shadow-[0_18px_30px_-18px_rgb(43_17_4/0.45)] transition-[opacity,translate,visibility] duration-300 ease-out-expo data-[open=true]:visible data-[open=true]:translate-y-0 data-[open=true]:opacity-100 lg:hidden"
   >
-    <nav aria-label="Mobile navigation" class="mx-auto max-w-[1440px] px-5 pt-2 pb-6 sm:px-8">
+    <nav aria-label="Mobile navigation" class="container-x pt-2 pb-6">
       <ul class="divide-y divide-line">
         {
           nav.map((item, i) => (
-            <li>
+            <li
+              class="translate-x-[-12px] opacity-0 transition-[opacity,translate] duration-500 ease-out-expo in-data-[open=true]:translate-x-0 in-data-[open=true]:opacity-100"
+              style={`transition-delay:${60 + i * 45}ms`}
+            >
               <a
                 href={item.href}
                 data-nav-link
                 aria-current={i === 0 ? 'true' : undefined}
-                class="flex items-center justify-between py-4 text-[17px] font-medium text-[#3f4246] aria-[current=true]:font-semibold aria-[current=true]:text-ink"
+                class="group/link flex items-center justify-between py-4 text-[17px] font-medium text-[#3b3d44] aria-[current=true]:font-semibold aria-[current=true]:text-[#c4510a]"
               >
                 {item.label}
-                <ArrowRight class="h-4 w-4 text-brand" />
+                <Icon name="arrow" class="h-4 w-4 text-brand transition-transform duration-300 group-hover/link:translate-x-1" />
               </a>
             </li>
           ))
         }
       </ul>
-      <a href="#contact" class="btn btn-primary mt-5 w-full sm:hidden">
-        Get a quote
-        <ArrowRight class="h-[18px] w-[18px]" />
+      <a href="#menu" class="btn btn-primary mt-5 h-[50px] w-full text-[16px] sm:hidden">
+        Order Now
+        <Icon name="arrow" class="arrow h-4 w-4" strokeWidth={2.4} />
       </a>
     </nav>
   </div>
 </header>
 
 <script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.getElementById('mobile-menu');
 
@@ -97,7 +150,8 @@ import { nav } from '../data/site';
     if (!toggle || !menu) return;
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    menu.hidden = !open;
+    menu.dataset.open = String(open);
+    menu.toggleAttribute('inert', !open);
   };
 
   toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
@@ -105,9 +159,22 @@ import { nav } from '../data/site';
     if ((e.target as HTMLElement).closest('a')) setOpen(false);
   });
   document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
-  window.matchMedia('(min-width: 80rem)').addEventListener('change', (e) => e.matches && setOpen(false));
+  window.matchMedia('(min-width: 64rem)').addEventListener('change', (e) => e.matches && setOpen(false));
 
-  // Resalta en el menú la sección visible (subrayado amarillo como en el diseño).
+  // Sombra + desenfoque del header al hacer scroll.
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      header?.setAttribute('data-scrolled', String(window.scrollY > 50));
+      ticking = false;
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Menú activo según la sección visible.
   const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
   const sections = [...new Set(links.map((a) => a.hash))]
     .map((hash) => document.querySelector<HTMLElement>(hash))

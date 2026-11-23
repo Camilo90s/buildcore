@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // ⚠️ Cambia esto por tu dominio real: se usa para canonical, Open Graph y sitemap.
-  site: 'https://www.buildcore-construction.com',
+  // ⚠️ Si Vercel te asigna otra URL o usas un dominio propio, cámbiala aquí y en public/robots.txt.
+  site: 'https://bakery-landing.vercel.app',
   trailingSlash: 'ignore',
 
   integrations: [sitemap()],
@@ -16,29 +16,14 @@ export default defineConfig({
   },
 
   build: {
-    // Inyecta el CSS en el <head>: cero peticiones que bloqueen el render.
+    // CSS en línea en el <head>: cero peticiones que bloqueen el render.
     inlineStylesheets: 'always',
   },
 
   compressHTML: true,
 
-  // Fuentes autoalojadas con preload y fallbacks con métricas ajustadas (menos CLS).
+  // Inter variable autoalojada (preload + fallback con métricas ajustadas = CLS 0).
   fonts: [
-    {
-      provider: fontProviders.local(),
-      name: 'Barlow',
-      cssVariable: '--font-barlow',
-      fallbacks: ['sans-serif'],
-      options: {
-        variants: [
-          {
-            src: ['./src/assets/fonts/barlow-latin-700-normal.woff2'],
-            weight: 700,
-            style: 'normal',
-          },
-        ],
-      },
-    },
     {
       provider: fontProviders.local(),
       name: 'Inter',

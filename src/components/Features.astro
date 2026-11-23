@@ -1,0 +1,86 @@
+---
+import Icon from './Icon.astro';
+import { features } from '../data/site';
+---
+
+<section aria-label="Why our bakery" class="container-x relative z-10 mt-8 lg:mt-10">
+  <ul class="grid grid-cols-2 gap-y-8 rounded-[22px] bg-cream px-2 py-7 lg:grid-cols-4 lg:gap-y-0 lg:px-0 lg:py-[13px]">
+    {
+      features.map((f, i) => (
+        <li
+          data-reveal
+          style={`--delay:${i * 100}ms`}
+          class:list={[
+            'group relative flex flex-col items-center text-center',
+            // divisores verticales con puntitos en los extremos
+            i % 2 === 1 && 'feature-divider',
+            i === 2 && 'lg:feature-divider-lg',
+          ]}
+        >
+          <span class="heart-beat relative grid h-[50px] w-[56px] place-items-center">
+            <svg class="absolute inset-0 h-full w-full text-brand drop-shadow-[0_6px_10px_rgb(235_101_12/0.25)]" viewBox="0 0 56 50" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M28 48.5C12.5 39.5 2 30.5 2 17.6 2 9 8 2.5 16 2.5c5 0 9 2.4 12 6.5 3-4.1 7-6.5 12-6.5 8 0 14 6.5 14 15.1 0 12.9-10.5 21.9-26 30.9Z"
+              />
+            </svg>
+            <Icon name={f.icon} class="relative -mt-1 h-[24px] w-[24px] text-white" strokeWidth={1.9} />
+          </span>
+          <p class="mt-[22px] text-[15px] leading-[1.45] font-bold text-[#1d2433] sm:text-[16px] lg:leading-[25px]">
+            {f.title}
+            <br />
+            <span class:list={[f.bold ? 'font-bold' : 'text-[14.5px] font-medium text-[#3a3f4a]']}>{f.subtitle}</span>
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .feature-divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8%;
+    bottom: 8%;
+    width: 1px;
+    background: linear-gradient(#cfc6bf, #cfc6bf) center / 1px 100% no-repeat;
+  }
+
+  .feature-divider::after {
+    content: '';
+    position: absolute;
+    left: -1.5px;
+    top: 8%;
+    bottom: 8%;
+    width: 4px;
+    background:
+      radial-gradient(circle, #b9aea6 1.5px, transparent 2px) top / 4px 4px no-repeat,
+      radial-gradient(circle, #b9aea6 1.5px, transparent 2px) bottom / 4px 4px no-repeat;
+  }
+
+  @media (min-width: 64rem) {
+    .lg\:feature-divider-lg::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8%;
+      bottom: 8%;
+      width: 1px;
+      background: #cfc6bf;
+    }
+
+    .lg\:feature-divider-lg::after {
+      content: '';
+      position: absolute;
+      left: -1.5px;
+      top: 8%;
+      bottom: 8%;
+      width: 4px;
+      background:
+        radial-gradient(circle, #b9aea6 1.5px, transparent 2px) top / 4px 4px no-repeat,
+        radial-gradient(circle, #b9aea6 1.5px, transparent 2px) bottom / 4px 4px no-repeat;
+    }
+  }
+</style>

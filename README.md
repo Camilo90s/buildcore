@@ -1,72 +1,79 @@
-# BuildCore Construction — Landing page (Astro + Tailwind CSS)
+# Bakery.com — Landing page (Astro + Tailwind CSS + pnpm)
 
-Réplica de la landing "BuildCore Construction", responsive y optimizada para SEO y rendimiento.
+Réplica responsive de la landing "Bakery.com", optimizada para SEO y rendimiento, con animaciones ligeras.
 
-**Lighthouse (build de producción):** Performance 99–100 · Accessibility 100 · Best Practices 100 · SEO 100 · CLS 0.
+**Lighthouse (build de producción):** Performance 98 móvil / 100 escritorio · Accessibility 100 · Best Practices 100 · SEO 100 · CLS 0.
+
+> **Proyecto demo.** "Bakery.com" es la marca ficticia del diseño de referencia. Los datos de contacto y los
+> testimonios son de ejemplo (el footer lo indica). Sustitúyelos antes de usar el sitio para un negocio real.
 
 ## Requisitos
 
 - Node.js **22.23.4 o superior** (lo exige Astro 7)
-
-## Comandos
+- **pnpm 10** (fijado en `package.json` → `"packageManager": "pnpm@10.34.9"`)
 
 ```bash
-npm install
-npm run dev       # servidor local en http://localhost:4321
-npm run build     # genera el sitio estático en ./dist
-npm run preview   # sirve ./dist para probar el build
+corepack enable   # si aún no tienes pnpm
+pnpm install
+pnpm dev          # http://localhost:4321
+pnpm build        # sitio estático en ./dist
+pnpm preview      # sirve ./dist
+pnpm check        # revisión de tipos
 ```
+
+`pnpm-workspace.yaml` autoriza los scripts de instalación de `esbuild` y `sharp` (pnpm 10 los bloquea por defecto).
+
+## Deploy en Vercel
+
+Importa el repo en [vercel.com/new](https://vercel.com/new) y pulsa **Deploy** sin cambiar nada: Vercel detecta Astro
+y usa pnpm 10 por el `pnpm-lock.yaml`. Si la URL final no es `bakery-landing.vercel.app`, cámbiala en
+`astro.config.mjs` (`site`) y en `public/robots.txt`.
 
 ## Estructura
 
 ```
 src/
 ├─ assets/
-│  ├─ fonts/              Barlow 700 + Inter variable (woff2, autoalojadas)
-│  └─ hero-building.jpg   Imagen del hero (provisional, ver abajo)
+│  ├─ fonts/            Inter variable (woff2, autoalojada)
+│  └─ images/           Fotos provisionales (recortadas de la captura de referencia)
 ├─ components/
-│  ├─ Header.astro        Logo, menú, botón "Get a quote" y menú móvil
-│  ├─ Hero.astro          Sección principal (H1, línea amarilla, botones)
-│  ├─ ServicesBar.astro   Franja de 4 servicios con iconos
-│  ├─ ServiceIcon.astro   Iconos SVG de los servicios
-│  ├─ About.astro         Sobre nosotros + estadísticas
-│  ├─ Projects.astro      Proyectos destacados
-│  ├─ Company.astro       Por qué elegirnos
-│  ├─ Contact.astro       Banda CTA + formulario de contacto
-│  ├─ Footer.astro
-│  ├─ Logo.astro / ArrowRight.astro
-├─ data/site.ts           ← Todos los textos, datos de contacto y SEO en un solo sitio
-├─ layouts/Layout.astro   <head> con meta tags, Open Graph, Twitter y JSON-LD
-├─ pages/index.astro
-└─ styles/global.css      Tailwind v4 + tokens de diseño (@theme)
-public/                   favicon, iconos, og-image.jpg, robots.txt, manifest
+│  ├─ Header.astro      Barra superior + header fijo + menú móvil
+│  ├─ Hero.astro        "Sweet Moments Start Here" + foto + onda inferior
+│  ├─ Features.astro    Franja de 4 ventajas con iconos de corazón
+│  ├─ PopularItems.astro  Productos con "Add to Cart" (#menu)
+│  ├─ About.astro       Foto con arco + texto (#about)
+│  ├─ Testimonials.astro  Reseñas con slider (scroll-snap) y puntos
+│  ├─ Gallery.astro     Galería bento (#gallery)
+│  ├─ Blog.astro        Artículos (#blog)
+│  ├─ Footer.astro      Banda CTA + footer (#contact)
+│  └─ Icon.astro / Logo.astro
+├─ data/site.ts         ← textos, productos, precios, reseñas, horarios y contacto
+├─ layouts/Layout.astro  <head>: meta, Open Graph, Twitter, JSON-LD (Bakery + Menu)
+└─ styles/global.css    Tailwind v4, tokens de diseño y animaciones
 ```
 
-## Antes de publicar (checklist)
+## Pendiente antes de usarlo en producción real
 
-1. **Dominio:** cambia `site` en `astro.config.mjs` y la línea `Sitemap:` en `public/robots.txt`.
-2. **Datos reales:** teléfono, email, dirección, horario y redes en `src/data/site.ts` (alimentan también el JSON-LD).
-3. **Imagen del hero:** `src/assets/hero-building.jpg` está recortada de la captura de referencia (resolución baja).
-   Sustitúyela por una foto de al menos **1800 × 1440 px** con el mismo encuadre (edificio a la izquierda-centro, grúa a la derecha).
-   Astro genera automáticamente las versiones AVIF/WebP en varios tamaños.
-   Prompt sugerido si la generas con IA:
-   > Photorealistic architectural photograph of a modern two-story concrete and glass luxury house at blue hour, warm interior lights glowing through floor-to-ceiling windows, wide illuminated stone entrance steps with landscape lighting and shrubs, a yellow tower crane and a building under construction in the background on the right, dramatic sunset sky with soft clouds, eye-level three-quarter view, sharp details, 5:4 aspect ratio
-4. **Proyectos:** las tarjetas usan recortes de la misma imagen como marcador. Añade fotos reales en `src/assets/` e impórtalas en `Projects.astro`.
-5. **Formulario:** cambia el `action` del `<form>` en `Contact.astro` (Formspree, Web3Forms, Netlify Forms o tu backend).
-6. **Open Graph:** `public/og-image.jpg` (1200 × 630) es provisional; reemplázala por una imagen de marca.
+1. **Fotos:** las de `src/assets/images/` salen de la captura (baja resolución, escaladas). Cámbialas por fotos
+   reales con el mismo nombre de archivo (Astro genera AVIF/WebP y tamaños automáticamente). Prompts sugeridos si
+   las generas con IA:
+   - *Hero:* `Professional food photography of a chocolate drip cake topped with fresh strawberries, blueberries and mint leaves on a wooden cake stand, dark moody bakery background with warm bokeh lights, side view, 4:5`
+   - *Productos:* `Close-up food photography of [butter croissants / a chocolate cupcake with a frosting swirl / a fresh fruit tart with strawberries and blueberries / a slice of red velvet layer cake], warm natural light, shallow depth of field, rustic bakery table, 10:9`
+   - *About:* `A baker in a white shirt and dark apron sprinkling flour over dough on a wooden table, flour particles in the air, warm bakery kitchen, plants in the background, 4:3`
+2. **Datos reales:** contacto, redes, horarios y reseñas en `src/data/site.ts` (si añades `href` a teléfono, email o
+   dirección se convierten en enlaces). Añade dirección y teléfono al JSON-LD de `Layout.astro`.
+3. **Carrito:** "Add to Cart" solo muestra la animación de añadido. Conéctalo a tu carrito (Shopify, Snipcart…) en
+   `PopularItems.astro`.
+4. **Video:** "Watch Video" lleva a la sección About; cambia el `href` por tu video.
+5. **Quita el aviso de demo** del footer cuando la marca y los datos sean reales.
 
-## Qué incluye para SEO y rendimiento
+## Animaciones
 
-- HTML estático, **0 KB de JavaScript de framework**; solo un script mínimo en línea para el menú móvil y el subrayado activo del menú.
-- CSS de Tailwind **en línea** en el `<head>` (sin peticiones que bloqueen el render).
-- Fuentes autoalojadas con la Fonts API de Astro: `preload` + fallbacks con métricas ajustadas (CLS = 0).
-- Imagen LCP con `<Picture>`: AVIF/WebP, `srcset`, `fetchpriority="high"`; el resto con `loading="lazy"`.
-- `title`, `description`, `canonical`, `robots`, Open Graph, Twitter Cards, `theme-color`, favicon SVG/PNG y manifest.
-- Datos estructurados **schema.org** (`GeneralContractor` con servicios, dirección y horario + `WebSite`).
-- `sitemap-index.xml` (@astrojs/sitemap) y `robots.txt`.
-- HTML semántico: un solo `h1`, jerarquía `h2`/`h3`, `nav` con `aria-label`, `address`, enlace "Skip to content", foco visible y contraste AA.
+CSS (`transform`/`opacity`) + ~1 KB de JS, sin librerías. Respetan "reducir movimiento" y sin JS todo se ve igual.
 
-## Tipografías
+- **Hero:** zoom de entrada de la foto, el titular sube línea a línea, textos y botones escalonados, anillo pulsante en "Watch Video", parallax y desvanecido al hacer scroll*.
+- **Header:** sombra + desenfoque al hacer scroll, barra de progreso de lectura*, subrayado animado, menú móvil escalonado.
+- **Secciones:** aparición al entrar en pantalla (`data-reveal`, `data-reveal="left|right|zoom"`, `style="--delay:120ms"`).
+- **Hover:** latido de los corazones, tarjetas que se elevan, zoom de fotos, brillo en botones, "Added!" al añadir al carrito.
 
-- **Barlow 700**: titular, logo, botones y títulos de sección (la más parecida a la referencia).
-- **Inter (variable)**: menú, párrafos y formularios.
+\* *Scroll-driven animations*: Chrome, Edge y Safari 26+ (Firefox las ignora).

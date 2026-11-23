@@ -1,53 +1,45 @@
 @import 'tailwindcss';
 
 @theme inline {
-  --font-display: var(--font-barlow);
   --font-sans: var(--font-inter);
 }
 
 @theme {
-  --color-brand: #f6b024;
-  --color-brand-600: #e39f14;
-  /* Variantes de texto sobre fondo claro (contraste WCAG AA) */
-  --color-brand-deep: #b77c00;
-  --color-brand-ink: #9a6500;
-  --color-navy: #021420;
-  --color-navy-800: #0a2233;
-  --color-navy-700: #12304a;
-  --color-ink: #111418;
-  --color-muted: #4b4f55;
-  --color-surface: #fbfbfd;
-  --color-line: #e9e9eb;
+  --color-brand: #eb650c;
+  --color-brand-600: #d45707;
+  --color-brand-text: #f07a1f;
+  --color-brand-light: #f6b972;
+  --color-brand-50: #fff3e8;
+  --color-cocoa: #2f1305;
+  --color-espresso: #2b1104;
+  --color-chocolate: #351605;
+  --color-cream: #fcf5ef;
+  --color-ink: #172033;
+  --color-ink-brown: #22140c;
+  --color-body: #3e3f45;
+  --color-muted: #5f6066;
+  --color-line: #ece6e1;
+  --color-star: #f5b82e;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 72px;
+    scroll-padding-top: 76px;
     -webkit-text-size-adjust: 100%;
   }
 
   @media (min-width: 64rem) {
     html {
-      scroll-padding-top: 96px;
-    }
-  }
-
-  @media (min-width: 80rem) {
-    html {
-      scroll-padding-top: 114px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
+      scroll-padding-top: 100px;
     }
   }
 
   body {
-    @apply bg-white font-sans text-ink antialiased;
-    text-rendering: optimizeLegibility;
+    @apply bg-white font-sans text-body antialiased;
+    overflow-x: clip;
   }
 
   :focus-visible {
@@ -57,55 +49,320 @@
 }
 
 @layer components {
-  /* Cielo del hero (solo escritorio): reproduce el degradado navy → azul de la referencia */
-  .hero-sky {
+  .container-x {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-6;
+  }
+
+  /* Fondo del hero: chocolate oscuro con "bokeh" cálido (se funde con la foto) */
+  .hero-bg {
     background:
-      linear-gradient(
-        90deg,
-        #021420 0%,
-        #021420 10%,
-        rgb(2 20 32 / 0.6) 22%,
-        rgb(2 20 32 / 0.15) 34%,
-        rgb(2 20 32 / 0) 42%
-      ),
-      linear-gradient(180deg, #3d6189 0%, #2a4b6e 25%, #13283b 55%, #0a1923 75%, #06121a 100%);
+      radial-gradient(circle at 56% 16%, rgb(150 82 28 / 0.5), transparent 15%),
+      radial-gradient(circle at 47% 30%, rgb(120 64 22 / 0.35), transparent 12%),
+      radial-gradient(circle at 63% 62%, rgb(110 52 16 / 0.45), transparent 20%),
+      radial-gradient(circle at 44% 94%, rgb(150 92 46 / 0.45), transparent 9%),
+      radial-gradient(circle at 30% 70%, rgb(70 34 12 / 0.5), transparent 25%),
+      linear-gradient(90deg, #2b1104 0%, #2b1104 38%, #3b1907 70%, #2b1104 100%);
   }
 
   @media (min-width: 64rem) {
     .hero-media {
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 16%);
-      mask-image: linear-gradient(90deg, transparent 0%, #000 16%);
+      -webkit-mask-image:
+        linear-gradient(90deg, transparent 0%, #000 20%), linear-gradient(180deg, #000 82%, transparent 100%);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(90deg, transparent 0%, #000 20%), linear-gradient(180deg, #000 82%, transparent 100%);
+      mask-composite: intersect;
     }
   }
 
-  .hero-overlay {
-    background:
-      linear-gradient(90deg, rgb(2 20 32 / 0.9) 0%, rgb(2 20 32 / 0.66) 55%, rgb(2 20 32 / 0.2) 100%),
-      linear-gradient(180deg, rgb(2 20 32 / 0) 55%, rgb(2 20 32 / 0.85) 100%);
+  @media (max-width: 63.98rem) {
+    .hero-media {
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+    }
   }
 
+  /* ---------- Botones ---------- */
   .btn {
-    @apply inline-flex h-[52px] items-center justify-center gap-[22px] rounded-[4px] px-7 font-display text-[16px] font-bold tracking-[0.01em] uppercase transition-colors duration-200 sm:h-[58px] sm:px-[30px] sm:text-[18px];
+    @apply relative isolate inline-flex items-center justify-center gap-3 overflow-hidden rounded-full font-bold whitespace-nowrap transition-[color,background-color,box-shadow,translate] duration-300;
+  }
+
+  .btn svg {
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+
+  .btn:hover svg.arrow,
+  .btn:focus-visible svg.arrow {
+    transform: translateX(4px);
   }
 
   .btn-primary {
-    @apply bg-brand text-[#1d1505] hover:bg-brand-600;
+    @apply bg-brand text-white hover:-translate-y-0.5 hover:bg-brand-600 hover:shadow-[0_12px_24px_-12px_rgb(235_101_12/0.85)];
   }
 
-  .btn-outline {
-    @apply border-[1.5px] border-white/60 text-white sm:px-[34px] hover:border-brand hover:bg-white/5;
+  .btn-dark {
+    @apply bg-chocolate text-white hover:-translate-y-0.5 hover:bg-[#4a2008] hover:shadow-[0_12px_24px_-12px_rgb(53_22_5/0.8)];
   }
 
+  /* Brillo que cruza el botón al pasar el cursor */
+  .btn-primary::after,
+  .btn-dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 25%, rgb(255 255 255 / 0.35) 50%, transparent 75%);
+    transform: translateX(-110%);
+    transition: transform 0.9s var(--ease-out-expo);
+  }
+
+  .btn-primary:hover::after,
+  .btn-dark:hover::after {
+    transform: translateX(110%);
+  }
+
+  /* Encabezados de sección: "—— Texto ——" */
   .eyebrow {
-    @apply inline-flex items-center gap-3 font-display text-[15px] font-bold tracking-[0.14em] text-brand-ink uppercase;
+    @apply inline-flex items-center gap-3 text-[16px] font-bold text-[#1f1a17] sm:text-[17px];
+  }
+
+  .eyebrow::before,
+  .eyebrow::after {
+    content: '';
+    @apply block h-[2px] w-9 rounded-full bg-brand sm:w-[50px];
   }
 
   .eyebrow::before {
-    content: '';
-    @apply block h-[2px] w-8 bg-brand;
+    transform-origin: right;
+  }
+
+  .eyebrow::after {
+    transform-origin: left;
   }
 
   .section-title {
-    @apply font-display text-[34px] leading-[1.08] font-bold uppercase sm:text-[42px] lg:text-[48px];
+    @apply text-[28px] leading-[1.2] font-bold tracking-[-0.01em] text-ink sm:text-[33px] lg:text-[36px];
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+}
+
+/* =====================================================================
+   ANIMACIONES — solo transform/opacity; desactivadas con "reducir movimiento"
+   ===================================================================== */
+
+@keyframes bk-rise {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes bk-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes bk-grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes bk-zoom-out {
+  from {
+    transform: scale(1.14);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes bk-parallax {
+  to {
+    transform: translate3d(0, 22vh, 0);
+  }
+}
+
+@keyframes bk-hero-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, 12vh, 0);
+  }
+}
+
+@keyframes bk-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes bk-heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.12);
+  }
+  45% {
+    transform: scale(0.96);
+  }
+  65% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes bk-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.92);
+  }
+  70% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-rise {
+    animation: bk-rise 1.1s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0s);
+  }
+
+  .anim-fade-up {
+    animation: bk-fade-up 1s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0s);
+  }
+
+  .anim-zoom-out {
+    animation: bk-zoom-out 2.4s var(--ease-out-expo) both;
+  }
+
+  .play-ring::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    border: 2px solid rgb(255 255 255 / 0.7);
+    animation: bk-pulse-ring 2.2s ease-out infinite;
+  }
+
+  .group:hover .heart-beat {
+    animation: bk-heartbeat 1s ease-in-out;
+  }
+
+  .is-added {
+    animation: bk-pop 0.45s var(--ease-out-expo);
+  }
+
+  /* Aparición al hacer scroll (data-reveal + IntersectionObserver) */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 36px, 0);
+    transition:
+      opacity 0.9s var(--ease-out-expo),
+      transform 0.9s var(--ease-out-expo);
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .js [data-reveal='left'] {
+    transform: translate3d(-48px, 0, 0);
+  }
+
+  .js [data-reveal='right'] {
+    transform: translate3d(48px, 0, 0);
+  }
+
+  .js [data-reveal='zoom'] {
+    transform: scale(0.94);
+  }
+
+  .js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Las líneas del eyebrow se dibujan al aparecer */
+  .js .eyebrow[data-reveal]::before,
+  .js .eyebrow[data-reveal]::after {
+    transform: scaleX(0);
+    transition: transform 0.9s var(--ease-out-expo) 0.3s;
+  }
+
+  .js .eyebrow[data-reveal].is-revealed::before,
+  .js .eyebrow[data-reveal].is-revealed::after {
+    transform: none;
+  }
+}
+
+/* Efectos ligados al scroll (Chrome, Edge, Safari 26+).
+   animation-timeline va en un selector aparte (:root …) para que el minificador
+   no lo meta dentro del shorthand "animation", que los navegadores rechazan. */
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    display: block;
+    transform-origin: left;
+    animation: bk-grow-x linear both;
+  }
+
+  :root .scroll-progress {
+    animation-timeline: scroll(root);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @media (min-width: 64rem) {
+      .parallax-y {
+        animation: bk-parallax linear both;
+      }
+
+      :root .parallax-y {
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+    }
+
+    .hero-scroll-out {
+      animation: bk-hero-out linear both;
+    }
+
+    :root .hero-scroll-out {
+      animation-timeline: scroll(root);
+      animation-range: 0 90vh;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .btn,
+  .btn svg,
+  .btn::after {
+    transition: none !important;
   }
 }

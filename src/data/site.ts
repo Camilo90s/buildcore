@@ -1,124 +1,116 @@
-// Contenido central del sitio. Edita aquí textos, datos de contacto y SEO.
-// ⚠️ Los datos de contacto y dirección son de ejemplo: reemplázalos por los reales
-//    (también alimentan el JSON-LD que lee Google).
+// Contenido central del sitio: textos, productos, datos de contacto y SEO.
+// ⚠️ "Bakery.com" es una marca ficticia del diseño de referencia y los datos de
+//    contacto y testimonios son de ejemplo. Sustitúyelos por los reales antes de usar
+//    el sitio para un negocio de verdad (al añadir `href` los datos se vuelven enlaces).
+
+import type { ImageMetadata } from 'astro';
+import croissant from '../assets/images/butter-croissant.jpg';
+import cupcake from '../assets/images/chocolate-cupcake.jpg';
+import fruitTart from '../assets/images/fruit-tart.jpg';
+import redVelvet from '../assets/images/red-velvet-cake.jpg';
+import heroCake from '../assets/images/hero-cake.jpg';
 
 export const site = {
-  name: 'BuildCore Construction',
-  shortName: 'BuildCore',
-  title: 'BuildCore Construction | Residential, Commercial & Industrial Builders',
+  name: 'Bakery.com',
+  title: 'Bakery.com — Fresh Cakes, Pastries & Handcrafted Baked Goods',
   description:
-    'BuildCore Construction delivers quality residential, commercial and industrial construction and design & build services with integrity, precision and a commitment to excellence.',
-  phone: '+1 (555) 014-2290',
-  phoneHref: '+15550142290',
-  email: 'hello@buildcore-construction.com',
-  address: {
-    street: '1250 Industrial Ave, Suite 300',
-    city: 'Austin',
-    region: 'TX',
-    postalCode: '78701',
-    country: 'US',
-  },
-  hours: 'Mon – Fri: 7:00 AM – 6:00 PM',
-  foundingYear: 1998,
-  social: [
-    { label: 'Facebook', href: 'https://www.facebook.com/' },
-    { label: 'Instagram', href: 'https://www.instagram.com/' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
-  ],
+    'Sweet moments start here. Freshly baked croissants, cupcakes, fruit tarts and celebration cakes, handcrafted every day with natural ingredients.',
+  locale: 'en_US',
 } as const;
+
+export const contact = [
+  { icon: 'phone', label: '+1 (555) 123-4567', href: undefined },
+  { icon: 'mail', label: 'hello@bakery.com', href: undefined },
+  { icon: 'pin', label: '123 Sweet Street, NY', href: undefined },
+] as const;
+
+export const social = [
+  { icon: 'facebook', label: 'Facebook', href: 'https://www.facebook.com/' },
+  { icon: 'instagram', label: 'Instagram', href: 'https://www.instagram.com/' },
+  { icon: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/' },
+  { icon: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/' },
+] as const;
 
 export const nav = [
   { label: 'Home', href: '#home' },
-  { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Company', href: '#company' },
+  { label: 'About', href: '#about' },
+  { label: 'Menu', href: '#menu' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Blog', href: '#blog' },
   { label: 'Contact', href: '#contact' },
 ] as const;
 
-export type ServiceIcon = 'residential' | 'commercial' | 'industrial' | 'design';
+type Feature = { icon: 'cupcake' | 'heart' | 'truck' | 'smile'; title: string; subtitle: string; bold?: boolean };
 
-export const services: { title: string; description: string; icon: ServiceIcon }[] = [
+export const features: Feature[] = [
+  { icon: 'cupcake', title: 'Fresh Ingredients', subtitle: '100% Natural' },
+  { icon: 'heart', title: 'Handcrafted', subtitle: 'with Love', bold: true },
+  { icon: 'truck', title: 'Fast & Reliable', subtitle: 'Delivery', bold: true },
+  { icon: 'smile', title: 'Customer', subtitle: 'Satisfaction', bold: true },
+];
+
+export const products = [
+  { name: 'Butter Croissant', price: 4.99, image: croissant, alt: 'Golden, flaky butter croissants on a wooden board' },
+  { name: 'Chocolate Cupcake', price: 3.99, image: cupcake, alt: 'Chocolate cupcake topped with a swirl of chocolate frosting' },
+  { name: 'Fruit Tart', price: 5.99, image: fruitTart, alt: 'Fruit tart topped with fresh strawberries and blueberries' },
+  { name: 'Red Velvet Cake', price: 5.99, image: redVelvet, alt: 'Slice of red velvet layer cake with cream cheese frosting' },
+];
+
+// Testimonios de ejemplo (marca ficticia). Reemplázalos por reseñas reales.
+export const testimonials = [
   {
-    title: 'Residential',
-    description: 'Custom homes, renovations and multi-family housing built to last.',
-    icon: 'residential',
+    quote: 'Absolutely delicious!\nThe cake was fresh and beautiful. Highly recommended!',
+    name: 'Sarah Johnson',
+    location: 'New York, USA',
+    color: '#f6b972',
   },
   {
-    title: 'Commercial',
-    description: 'Offices, retail and mixed-use buildings delivered on time and on budget.',
-    icon: 'commercial',
+    quote: 'Best bakery in town!\nGreat taste and excellent customer service.',
+    name: 'David Miller',
+    location: 'Los Angeles, USA',
+    color: '#c98b62',
   },
   {
-    title: 'Industrial',
-    description: 'Warehouses, plants and logistics facilities engineered for performance.',
-    icon: 'industrial',
-  },
-  {
-    title: 'Design & Build',
-    description: 'One team from concept and permits to the final walkthrough.',
-    icon: 'design',
+    quote: 'A wonderful experience.\nEverything was perfect!',
+    name: 'Emily Davis',
+    location: 'Chicago, USA',
+    color: '#e9a07a',
   },
 ];
 
-export const stats = [
-  { value: '25+', label: 'Years of experience' },
-  { value: '850+', label: 'Projects completed' },
-  { value: '120+', label: 'Skilled professionals' },
-  { value: '98%', label: 'Client satisfaction' },
-] as const;
+type GalleryItem = { image: ImageMetadata; alt: string; label: string; span?: 'big' };
 
-export const aboutPoints = [
-  'Licensed, bonded and fully insured',
-  'Transparent budgets with no hidden costs',
-  'Dedicated project manager on every job',
-] as const;
+export const gallery: GalleryItem[] = [
+  { image: heroCake, alt: 'Chocolate drip cake topped with strawberries, blueberries and mint', label: 'Celebration Cakes', span: 'big' },
+  { image: croissant, alt: 'Freshly baked butter croissants', label: 'Pastries' },
+  { image: cupcake, alt: 'Chocolate cupcake with frosting swirl', label: 'Cupcakes' },
+  { image: fruitTart, alt: 'Fresh fruit tart', label: 'Tarts' },
+  { image: redVelvet, alt: 'Red velvet cake slice', label: 'Layer Cakes' },
+];
 
-// Las tarjetas usan recortes de la imagen del hero como marcador de posición.
-// Sustitúyelos por fotos reales de cada proyecto en src/assets/.
-export const projects = [
+export const posts = [
   {
-    title: 'Hillside Modern Residence',
-    category: 'Residential',
-    location: 'Austin, TX',
-    year: 2025,
-    focus: '58% 78%',
+    category: 'Recipes',
+    date: '2026-11-12',
+    title: 'The Secret to Perfectly Flaky Croissants',
+    excerpt: 'Cold butter, patient folding and a long rest: the three rules our bakers never break.',
   },
   {
-    title: 'Riverside Office Complex',
-    category: 'Commercial',
-    location: 'Dallas, TX',
-    year: 2024,
-    focus: '45% 30%',
+    category: 'Tips',
+    date: '2026-10-28',
+    title: 'How to Choose the Right Cake for Your Party',
+    excerpt: 'Servings, flavors and decoration — a simple guide to picking the perfect centerpiece.',
   },
   {
-    title: 'Northgate Logistics Center',
-    category: 'Industrial',
-    location: 'San Antonio, TX',
-    year: 2024,
-    focus: '92% 40%',
+    category: 'Behind the Scenes',
+    date: '2026-10-09',
+    title: 'A Morning in Our Kitchen, Starting at 4 AM',
+    excerpt: 'From the first batch of sourdough to the last glaze, here is how a day at the bakery begins.',
   },
 ] as const;
 
-export const features = [
-  {
-    title: 'Safety First',
-    description: 'Rigorous site protocols and certified crews on every project.',
-    icon: 'shield',
-  },
-  {
-    title: 'On-Time Delivery',
-    description: 'Detailed scheduling and weekly reporting keep you on track.',
-    icon: 'clock',
-  },
-  {
-    title: 'Quality Materials',
-    description: 'We source trusted suppliers and inspect every phase of work.',
-    icon: 'badge',
-  },
-  {
-    title: 'Fixed Pricing',
-    description: 'Clear, itemized proposals so you always know where you stand.',
-    icon: 'tag',
-  },
+export const hours = [
+  { days: 'Monday – Friday', time: '7:00 AM – 8:00 PM' },
+  { days: 'Saturday', time: '8:00 AM – 9:00 PM' },
+  { days: 'Sunday', time: '8:00 AM – 6:00 PM' },
 ] as const;

@@ -1,7 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import '../styles/global.css';
-import { services, site } from '../data/site';
+import { products, site } from '../data/site';
 
 interface Props {
   title?: string;
@@ -14,51 +14,40 @@ const {
   title = site.title,
   description = site.description,
   image = '/og-image.jpg',
-  imageAlt = 'BuildCore Construction — Building Tomorrow Together',
+  imageAlt = 'Bakery.com — Sweet Moments Start Here',
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 const siteUrl = new URL('/', Astro.site).href;
 
-// Datos estructurados (schema.org) para resultados enriquecidos en Google.
+// Datos estructurados (schema.org). Añade address, telephone y openingHours reales
+// cuando el sitio sea de un negocio real (ahora la marca es ficticia).
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'GeneralContractor',
-      '@id': `${siteUrl}#organization`,
+      '@type': 'Bakery',
+      '@id': `${siteUrl}#bakery`,
       name: site.name,
       url: siteUrl,
-      logo: new URL('/favicon.svg', Astro.site).href,
       image: ogImage.href,
+      logo: new URL('/favicon.svg', Astro.site).href,
       description,
-      telephone: site.phone,
-      email: site.email,
-      foundingDate: String(site.foundingYear),
-      priceRange: '$$$',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: site.address.street,
-        addressLocality: site.address.city,
-        addressRegion: site.address.region,
-        postalCode: site.address.postalCode,
-        addressCountry: site.address.country,
-      },
-      openingHoursSpecification: {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-        opens: '07:00',
-        closes: '18:00',
-      },
-      sameAs: site.social.map((s) => s.href),
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: 'Construction services',
-        itemListElement: services.map((s) => ({
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: `${s.title} construction`, description: s.description },
-        })),
+      servesCuisine: ['Bakery', 'Desserts', 'Pastries'],
+      priceRange: '$',
+      hasMenu: {
+        '@type': 'Menu',
+        name: 'Popular Items',
+        hasMenuSection: {
+          '@type': 'MenuSection',
+          name: 'Popular Items',
+          hasMenuItem: products.map((p) => ({
+            '@type': 'MenuItem',
+            name: p.name,
+            offers: { '@type': 'Offer', price: p.price.toFixed(2), priceCurrency: 'USD' },
+          })),
+        },
       },
     },
     {
@@ -67,7 +56,7 @@ const jsonLd = {
       url: siteUrl,
       name: site.name,
       inLanguage: 'en',
-      publisher: { '@id': `${siteUrl}#organization` },
+      publisher: { '@id': `${siteUrl}#bakery` },
     },
   ],
 };
@@ -82,11 +71,13 @@ const jsonLd = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
-    <meta name="theme-color" content="#021420" />
+    <meta name="theme-color" content="#2f1305" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="generator" content={Astro.generator} />
 
-    <Font cssVariable="--font-barlow" preload />
+    <!-- Activa las animaciones de aparición solo si hay JS (sin JS todo se ve normal) -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
     <Font cssVariable="--font-inter" preload />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -98,7 +89,7 @@ const jsonLd = {
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={site.locale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -119,9 +110,51 @@ const jsonLd = {
   <body>
     <a
       href="#main"
-      class="sr-only z-[60] rounded-[4px] bg-brand px-4 py-2 font-semibold text-navy focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      class="sr-only z-[60] rounded-full bg-brand px-4 py-2 font-semibold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >Skip to content</a
     >
     <slot />
+
+    <script>
+      // Aparición al hacer scroll + contadores animados. ~1 KB, sin librerías.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+      const countUp = (el: HTMLElement) => {
+        const end = Number(el.dataset.count);
+        const suffix = el.dataset.suffix ?? '';
+        if (!Number.isFinite(end) || reduceMotion) return;
+        const duration = 1800;
+        let start: number | undefined;
+        const tick = (now: number) => {
+          start ??= now;
+          const p = Math.min((now - start) / duration, 1);
+          el.textContent = `${Math.round(end * (1 - Math.pow(1 - p, 4)))}${suffix}`;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+
+      const reveal = (el: HTMLElement) => {
+        el.classList.add('is-revealed');
+        el.querySelectorAll<HTMLElement>('[data-count]').forEach(countUp);
+      };
+
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(reveal);
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              io.unobserve(entry.target);
+              reveal(entry.target as HTMLElement);
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -6% 0px' },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>

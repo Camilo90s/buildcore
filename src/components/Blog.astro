@@ -1,0 +1,40 @@
+---
+import Icon from './Icon.astro';
+import { posts } from '../data/site';
+
+const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+---
+
+<section id="blog" aria-labelledby="blog-title" class="bg-cream py-16 lg:py-24">
+  <div class="container-x">
+    <div class="text-center">
+      <p class="eyebrow" data-reveal>From Our Blog</p>
+      <h2 id="blog-title" class="section-title mt-2.5" data-reveal style="--delay:80ms">
+        Tips, Recipes &amp; <span class="text-brand-600">Sweet Stories</span>
+      </h2>
+    </div>
+
+    <ul class="mt-10 grid gap-5 md:grid-cols-3 lg:gap-6">
+      {
+        posts.map((post, i) => (
+          <li data-reveal style={`--delay:${i * 120}ms`}>
+            <article class="group relative flex h-full flex-col overflow-hidden rounded-[18px] bg-white p-7 shadow-[0_14px_34px_-22px_rgb(43_17_4/0.35)] transition-[translate,box-shadow] duration-500 ease-out-expo hover:-translate-y-1.5 hover:shadow-[0_26px_44px_-22px_rgb(43_17_4/0.45)]">
+              <span class="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out-expo group-hover:scale-x-100" aria-hidden="true" />
+              <div class="flex items-center justify-between gap-3 text-[13px]">
+                <span class="rounded-full bg-brand-50 px-3 py-1 font-semibold text-brand-600">{post.category}</span>
+                <span class="flex items-center gap-1.5 text-[#6e6e73]">
+                  <Icon name="calendar" class="h-4 w-4" />
+                  <time datetime={post.date}>{fmt.format(new Date(post.date))}</time>
+                </span>
+              </div>
+              <h3 class="mt-5 text-[19px] leading-[1.35] font-bold text-ink transition-colors group-hover:text-brand-600">
+                {post.title}
+              </h3>
+              <p class="mt-3 text-[15px] leading-[1.65] text-muted">{post.excerpt}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

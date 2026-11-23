@@ -1,32 +1,53 @@
 ---
 import Logo from './Logo.astro';
-import { nav, services, site } from '../data/site';
+import Icon from './Icon.astro';
+import { contact, hours, nav, social } from '../data/site';
 
 const year = new Date().getFullYear();
-const { address } = site;
 ---
 
-<footer class="bg-navy text-white/70">
-  <div class="mx-auto grid max-w-[1440px] grid-cols-2 gap-x-8 gap-y-12 px-5 py-16 sm:px-8 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:px-12 xl:px-[70px]">
-    <div class="col-span-2 md:col-span-1">
-      <a href="#home" aria-label="BuildCore Construction — back to top" class="inline-block">
-        <Logo variant="light" />
-      </a>
-      <p class="mt-6 max-w-[340px] text-[15.5px] leading-[1.7]">
-        Quality construction solutions delivered with integrity, precision and a commitment to excellence.
+<!-- Banda CTA -->
+<section aria-labelledby="cta-title" class="container-x relative z-10 -mb-20 pt-16 lg:pt-24">
+  <div
+    class="relative overflow-hidden rounded-[24px] bg-linear-to-r from-brand to-[#f08a2c] px-7 py-10 text-white sm:px-12 lg:flex lg:items-center lg:justify-between lg:px-14 lg:py-12"
+    data-reveal="zoom"
+  >
+    <svg class="pointer-events-none absolute -top-10 -right-10 h-56 w-56 text-white/10" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="22"></circle>
+    </svg>
+    <div class="relative">
+      <h2 id="cta-title" class="text-[28px] leading-tight font-bold sm:text-[34px]">Craving something sweet?</h2>
+      <p class="mt-2 text-[17px] text-white/90">Fresh batches out of the oven every morning.</p>
+    </div>
+    <a
+      href="#menu"
+      class="btn relative mt-7 h-[54px] bg-white px-8 text-[16px] text-brand-600 hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-14px_rgb(43_17_4/0.6)] lg:mt-0"
+    >
+      See the Menu
+      <Icon name="arrow" class="arrow h-[18px] w-[18px]" strokeWidth={2.4} />
+    </a>
+  </div>
+</section>
+
+<footer id="contact" class="bg-cocoa pt-32 text-white/75">
+  <div class="container-x grid grid-cols-2 gap-x-8 gap-y-12 pb-14 lg:grid-cols-[1.4fr_1fr_1.2fr_1.3fr]">
+    <div class="col-span-2 lg:col-span-1">
+      <a href="#home" aria-label="Bakery.com — back to top" class="inline-block"><Logo variant="light" /></a>
+      <p class="mt-5 max-w-[320px] text-[15px] leading-[1.7]">
+        Handcrafted cakes, pastries and breads baked fresh every day with natural ingredients and a lot of love.
       </p>
       <ul class="mt-6 flex gap-3">
         {
-          site.social.map((s) => (
+          social.map((s) => (
             <li>
               <a
                 href={s.href}
-                rel="noopener"
                 target="_blank"
-                class="grid h-10 w-10 place-items-center rounded-[4px] border border-white/15 font-display text-[13px] font-bold text-white transition-colors hover:border-brand hover:bg-brand hover:text-navy"
-                aria-label={`BuildCore on ${s.label}`}
+                rel="noopener"
+                aria-label={s.label}
+                class="grid h-10 w-10 place-items-center rounded-full border border-white/20 text-white transition-[background-color,border-color,translate] duration-300 hover:-translate-y-0.5 hover:border-brand hover:bg-brand"
               >
-                {s.label.slice(0, 2).toUpperCase()}
+                <Icon name={s.icon} class="h-[17px] w-[17px]" />
               </a>
             </li>
           ))
@@ -35,33 +56,47 @@ const { address } = site;
     </div>
 
     <nav aria-label="Footer navigation">
-      <h2 class="font-display text-[17px] font-bold tracking-[0.08em] text-white uppercase">Company</h2>
-      <ul class="mt-5 space-y-3 text-[15.5px]">
-        {nav.map((item) => <li><a href={item.href} class="hover:text-brand">{item.label}</a></li>)}
+      <h2 class="text-[17px] font-bold text-white">Quick Links</h2>
+      <ul class="mt-5 space-y-3 text-[15px]">
+        {nav.map((item) => <li><a href={item.href} class="transition-colors hover:text-brand-light">{item.label}</a></li>)}
       </ul>
     </nav>
 
     <div>
-      <h2 class="font-display text-[17px] font-bold tracking-[0.08em] text-white uppercase">Services</h2>
-      <ul class="mt-5 space-y-3 text-[15.5px]">
-        {services.map((s) => <li><a href="#services" class="hover:text-brand">{s.title}</a></li>)}
+      <h2 class="text-[17px] font-bold text-white">Opening Hours</h2>
+      <ul class="mt-5 space-y-3 text-[15px]">
+        {
+          hours.map((h) => (
+            <li>
+              <span class="block font-semibold text-white/90">{h.days}</span>
+              <span class="flex items-center gap-1.5"><Icon name="clock" class="h-4 w-4 text-brand-light" />{h.time}</span>
+            </li>
+          ))
+        }
       </ul>
     </div>
 
-    <div class="col-span-2 md:col-span-1">
-      <h2 class="font-display text-[17px] font-bold tracking-[0.08em] text-white uppercase">Get in touch</h2>
-      <ul class="mt-5 space-y-3 text-[15.5px]">
-        <li><a href={`tel:${site.phoneHref}`} class="hover:text-brand">{site.phone}</a></li>
-        <li><a href={`mailto:${site.email}`} class="break-words hover:text-brand">{site.email}</a></li>
-        <li>{address.street}<br />{address.city}, {address.region} {address.postalCode}</li>
-      </ul>
+    <div class="col-span-2 lg:col-span-1">
+      <h2 class="text-[17px] font-bold text-white">Contact</h2>
+      <address class="mt-5 space-y-3.5 text-[15px] not-italic">
+        {
+          contact.map((c) => (
+            <p class="flex items-center gap-3">
+              <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white/10 text-brand-light">
+                <Icon name={c.icon} class="h-[17px] w-[17px]" />
+              </span>
+              {c.href ? <a href={c.href} class="hover:text-brand-light">{c.label}</a> : c.label}
+            </p>
+          ))
+        }
+      </address>
     </div>
   </div>
 
   <div class="border-t border-white/10">
-    <div class="mx-auto flex max-w-[1440px] flex-col gap-2 px-5 py-6 text-[14px] sm:flex-row sm:justify-between sm:px-8 lg:px-12 xl:px-[70px]">
-      <p>© {year} {site.name}. All rights reserved.</p>
-      <p>Licensed &amp; insured general contractor.</p>
+    <div class="container-x flex flex-col gap-2 py-6 text-[13.5px] text-white/65 md:flex-row md:items-center md:justify-between">
+      <p>© {year} Bakery.com. All rights reserved.</p>
+      <p>Demo website — Bakery.com is a fictional brand; reviews and contact details are sample content.</p>
     </div>
   </div>
 </footer>

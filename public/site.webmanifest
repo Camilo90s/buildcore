@@ -1,12 +1,12 @@
 {
-  "name": "BuildCore Construction",
-  "short_name": "BuildCore",
+  "name": "Bakery.com",
+  "short_name": "Bakery",
   "icons": [
     { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
     { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
   ],
-  "theme_color": "#021420",
-  "background_color": "#021420",
+  "theme_color": "#2f1305",
+  "background_color": "#fcf5ef",
   "display": "standalone",
   "start_url": "/"
 }

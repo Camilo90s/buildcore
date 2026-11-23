@@ -1,60 +1,83 @@
 ---
 import { Picture } from 'astro:assets';
-import ArrowRight from './ArrowRight.astro';
-import heroImage from '../assets/hero-building.jpg';
+import Icon from './Icon.astro';
+import heroCake from '../assets/images/hero-cake.jpg';
 ---
 
-<section id="home" aria-labelledby="hero-title" class="relative isolate overflow-hidden bg-navy">
-  <!-- Fondo: cielo + foto + velo (solo móvil) -->
-  <div class="hero-sky absolute inset-0 -z-30 hidden lg:block" aria-hidden="true"></div>
+<section id="home" aria-labelledby="hero-title" class="hero-bg relative isolate overflow-hidden text-white">
+  <div class="hero-scroll-out container-x relative lg:min-h-[547px]">
+    <div class="pt-14 pb-2 sm:pt-16 lg:pt-[93px] lg:pb-[88px] lg:pl-[42px]">
+      <p
+        class="anim-fade-up flex items-center gap-[10px] text-[12px] leading-5 font-bold tracking-[0.05em] text-white/95 uppercase sm:text-[13.5px]"
+        style="--d:.05s"
+      >
+        <span class="h-[2px] w-6 rounded-full bg-white/75 sm:w-[30px]" aria-hidden="true"></span>
+        Freshly Baked, Always Delicious
+        <span class="h-[2px] w-6 rounded-full bg-white/75 sm:w-[30px]" aria-hidden="true"></span>
+      </p>
 
-  <div class="hero-media absolute inset-0 -z-20 lg:left-[38.2%]">
-    <Picture
-      src={heroImage}
-      formats={['avif', 'webp']}
-      widths={[480, 768, 1080, 1400, 1774]}
-      sizes="(min-width: 1024px) 62vw, 100vw"
-      alt="Modern two-story concrete and glass home lit at dusk, with a tower crane rising behind it"
-      priority
-      class="h-full w-full object-cover object-[60%_center] lg:object-[left_center]"
-      pictureAttributes={{ class: 'block h-full w-full' }}
-    />
+      <h1
+        id="hero-title"
+        class="mt-[14px] text-[44px] leading-[1.06] font-bold tracking-[-0.015em] sm:text-[56px] lg:text-[66px] lg:leading-[69px] xl:text-[70px] xl:leading-[74px]"
+      >
+        <span class="block overflow-hidden">
+          <span class="anim-rise block" style="--d:.15s">Sweet Moments</span>{' '}
+        </span>
+        <span class="block overflow-hidden">
+          <span class="anim-rise block text-brand-text" style="--d:.28s">Start Here</span>
+        </span>
+      </h1>
+
+      <p
+        class="anim-fade-up mt-6 max-w-[500px] text-[17px] leading-[1.6] text-white/90 sm:text-[19px] lg:mt-[41px] lg:text-[20px] lg:leading-[28px]"
+        style="--d:.55s"
+      >
+        Discover the perfect blend of taste and freshness with our handcrafted baked goods.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-5 sm:gap-x-[30px] lg:mt-[39px]">
+        <a href="#menu" class="anim-fade-up btn btn-primary h-[52px] px-6 text-[16px] sm:px-8 lg:h-[57px] lg:w-[183px] lg:text-[17px]" style="--d:.7s">
+          Order Now
+          <Icon name="arrow" class="arrow h-[18px] w-[18px]" strokeWidth={2.4} />
+        </a>
+        <a href="#about" class="anim-fade-up group inline-flex items-center gap-4 text-[16px] sm:gap-[26px] font-bold lg:text-[17px]" style="--d:.82s">
+          <span
+            class="play-ring relative grid h-[43px] w-[43px] place-items-center rounded-full border-2 border-white/90 transition-colors duration-300 group-hover:border-brand group-hover:bg-brand"
+          >
+            <Icon name="play" class="ml-0.5 h-[18px] w-[18px]" />
+          </span>
+          Watch Video
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="hero-overlay absolute inset-0 -z-10 lg:hidden" aria-hidden="true"></div>
-
+  <!-- Foto (a la derecha en escritorio, debajo del texto en móvil) -->
   <div
-    class="mx-auto flex min-h-[600px] max-w-[1440px] flex-col justify-center px-5 py-16 sm:min-h-[640px] sm:px-8 sm:py-20 lg:min-h-[640px] lg:px-12 xl:min-h-[711px] xl:justify-start xl:px-[70px] xl:pt-[128px] xl:pb-[94px]"
+    class="hero-media pointer-events-none relative -z-10 mx-auto -mt-2 h-[340px] w-full max-w-[560px] sm:h-[420px] lg:absolute lg:top-0 lg:right-0 lg:bottom-[52px] lg:left-[57.8%] lg:mt-0 lg:h-auto lg:w-auto lg:max-w-none"
   >
-    <h1
-      id="hero-title"
-      class="font-display text-[46px] leading-[1.06] font-bold text-white uppercase sm:text-[60px] lg:text-[68px] xl:text-[75px] xl:leading-[78px]"
-    >
-      <span class="block">Building</span>
-      <span class="block">Tomorrow</span>
-      <span class="block text-brand">Together</span>
-    </h1>
-
-    <div class="mt-6 flex h-[2px] w-[180px] sm:w-[225px] xl:mt-[32px]" aria-hidden="true">
-      <span class="w-[68px] bg-brand"></span>
-      <span class="flex-1 bg-brand/25"></span>
-    </div>
-
-    <p
-      class="mt-6 max-w-[432px] text-[17px] leading-[1.65] tracking-[0.015em] font-[450] text-[#e2e6ea] sm:text-[19px] xl:mt-[26px] xl:text-[20px] xl:leading-[34px]"
-    >
-      We deliver quality construction solutions with integrity, precision, and a commitment to excellence.
-    </p>
-
-    <div class="mt-8 flex flex-col gap-4 min-[420px]:flex-row xl:mt-[35px]">
-      <a href="#services" class="btn btn-primary">
-        Our services
-        <ArrowRight />
-      </a>
-      <a href="#projects" class="btn btn-outline">
-        View projects
-        <ArrowRight class="h-[18px] w-[18px] text-brand" />
-      </a>
+    <div class="parallax-y h-full w-full">
+      <Picture
+        src={heroCake}
+        formats={['avif', 'webp']}
+        widths={[420, 640, 880]}
+        sizes="(min-width: 1024px) 43vw, (min-width: 560px) 560px, 100vw"
+        alt="Chocolate drip cake topped with fresh strawberries, blueberries and mint on a wooden cake stand"
+        priority
+        class="anim-zoom-out h-full w-full object-cover object-[center_30%] lg:object-[left_center]"
+        pictureAttributes={{ class: 'block h-full w-full' }}
+      />
     </div>
   </div>
+
+  <!-- Onda inferior: blanco + franja naranja (como en el diseño) -->
+  <svg
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-[52px] w-full sm:h-[70px] lg:h-[100px]"
+    viewBox="0 0 1024 100"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <path fill="#EB650C" d="M640 100C800 98 930 62 1024 16V58C960 82 880 100 760 100Z"></path>
+    <path fill="#fff" d="M0 48C300 74 560 100 760 100C880 100 960 82 1024 58V100H0Z"></path>
+  </svg>
 </section>

@@ -1,60 +1,73 @@
 ---
-import ArrowRight from './ArrowRight.astro';
-import { aboutPoints, site, stats } from '../data/site';
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import baker from '../assets/images/baker-flour.jpg';
 ---
 
-<section id="about" aria-labelledby="about-title" class="bg-white py-20 lg:py-28">
-  <div class="mx-auto grid max-w-[1440px] items-center gap-12 px-5 sm:px-8 lg:grid-cols-[1.05fr_1fr] lg:gap-16 lg:px-12 xl:px-[70px]">
-    <div>
-      <p class="eyebrow">About us</p>
-      <h2 id="about-title" class="section-title mt-4 text-navy">
-        Built on trust.<br />
-        <span class="text-brand-deep">Driven by quality.</span>
-      </h2>
-      <p class="mt-6 max-w-[560px] text-[17px] leading-[1.75] text-muted">
-        Since {site.foundingYear}, BuildCore Construction has partnered with homeowners, developers and
-        businesses to turn ambitious plans into durable, beautiful buildings. Our engineers, project managers
-        and craftsmen work as one team, so every project is delivered safely, on schedule and to the highest
-        standard.
-      </p>
-      <ul class="mt-8 space-y-4">
-        {
-          aboutPoints.map((point) => (
-            <li class="flex items-center gap-3 text-[16px] font-medium text-ink">
-              <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand/15 text-brand-600">
-                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="m5 12.5 4.5 4.5L19 7.5" />
-                </svg>
-              </span>
-              {point}
-            </li>
-          ))
-        }
-      </ul>
-      <a href="#company" class="btn mt-10 border-[1.5px] border-navy text-navy hover:bg-navy hover:text-white">
-        Why choose us
-        <ArrowRight class="h-[18px] w-[18px] text-brand" />
-      </a>
+<section id="about" aria-labelledby="about-title" class="container-x">
+  <div
+    class="relative grid overflow-hidden rounded-[24px] bg-cream p-3 sm:p-[13px] lg:min-h-[415px] lg:grid-cols-[433px_1fr] lg:gap-[85px] xl:grid-cols-[470px_1fr]"
+  >
+    <!-- Foto con borde derecho en arco + media luna naranja -->
+    <div class="about-photo relative mr-7 lg:mr-0" data-reveal="left">
+      <Image
+        src={baker}
+        alt="Baker sprinkling flour over fresh dough on a wooden table"
+        widths={[420, 640, 860]}
+        sizes="(min-width: 1280px) 470px, (min-width: 1024px) 433px, 92vw"
+        loading="lazy"
+        class="relative z-10 rounded-[20px_95px_95px_20px/20px_50%_50%_20px] aspect-[4/3] h-full w-full object-cover lg:aspect-auto"
+      />
     </div>
 
-    <div class="relative">
-      <div class="absolute -top-4 -right-4 hidden h-full w-full rounded-[4px] border-2 border-brand/70 sm:block" aria-hidden="true"></div>
-      <dl class="relative grid grid-cols-2 overflow-hidden rounded-[4px] bg-navy text-white">
-        {
-          stats.map((stat, i) => (
-            <div
-              class:list={[
-                'flex flex-col-reverse gap-2 p-7 sm:p-10',
-                i % 2 === 1 && 'border-l border-white/10',
-                i > 1 && 'border-t border-white/10',
-              ]}
-            >
-              <dt class="text-[14px] font-medium tracking-wide text-white/70 sm:text-[15px]">{stat.label}</dt>
-              <dd class="font-display text-[42px] leading-none font-bold text-brand sm:text-[56px]">{stat.value}</dd>
-            </div>
-          ))
-        }
-      </dl>
+    <div class="relative px-3 pt-8 pb-8 sm:px-6 lg:px-0 lg:pt-[44px] lg:pr-10 lg:pb-[60px]">
+      <!-- Destellos decorativos -->
+      <svg
+        class="absolute top-6 right-4 h-[38px] w-[44px] text-brand lg:top-[50px] lg:right-[36px]"
+        viewBox="0 0 44 38"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M9 3.5 7.5 14M24 9.5 16.5 17.5M37 27H25.5"></path>
+      </svg>
+
+      <p class="text-[17px] font-bold sm:text-[19px]" data-reveal>
+        <span class="text-[#c57a35]">About</span>
+        <span class="text-brand-600">Bakery.com</span>
+      </p>
+      <h2
+        id="about-title"
+        class="mt-3 text-[30px] leading-[1.2] font-bold tracking-[-0.015em] text-ink-brown sm:text-[36px] lg:mt-[15px] lg:text-[40px] lg:leading-[50px]"
+        data-reveal
+        style="--delay:80ms"
+      >
+        Baked with Passion,<br />Served with Care
+      </h2>
+      <p class="mt-4 max-w-[440px] text-[16px] leading-[24px] text-[#4d4a48]" data-reveal style="--delay:160ms">
+        At Bakery.com, we believe every bite should bring happiness. Our bakers use the finest ingredients to
+        create delicious treats for your special moments.
+      </p>
+      <div class="mt-6 lg:mt-[25px]" data-reveal style="--delay:240ms">
+        <a href="#gallery" class="btn btn-dark h-[52px] px-8 text-[16px] lg:h-[57px] lg:w-[188px] lg:text-[17px]">
+          Learn More
+          <Icon name="arrow" class="arrow h-[18px] w-[18px]" strokeWidth={2.4} />
+        </a>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Media luna naranja detrás de la foto (misma forma, desplazada) */
+  .about-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px 95px 95px 20px / 20px 50% 50% 20px;
+    background: var(--color-brand-light);
+    transform: translateX(26px);
+  }
+</style>

@@ -1,0 +1,111 @@
+@import 'tailwindcss';
+
+@theme inline {
+  --font-display: var(--font-barlow);
+  --font-sans: var(--font-inter);
+}
+
+@theme {
+  --color-brand: #f6b024;
+  --color-brand-600: #e39f14;
+  /* Variantes de texto sobre fondo claro (contraste WCAG AA) */
+  --color-brand-deep: #b77c00;
+  --color-brand-ink: #9a6500;
+  --color-navy: #021420;
+  --color-navy-800: #0a2233;
+  --color-navy-700: #12304a;
+  --color-ink: #111418;
+  --color-muted: #4b4f55;
+  --color-surface: #fbfbfd;
+  --color-line: #e9e9eb;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 72px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (min-width: 64rem) {
+    html {
+      scroll-padding-top: 96px;
+    }
+  }
+
+  @media (min-width: 80rem) {
+    html {
+      scroll-padding-top: 114px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Cielo del hero (solo escritorio): reproduce el degradado navy → azul de la referencia */
+  .hero-sky {
+    background:
+      linear-gradient(
+        90deg,
+        #021420 0%,
+        #021420 10%,
+        rgb(2 20 32 / 0.6) 22%,
+        rgb(2 20 32 / 0.15) 34%,
+        rgb(2 20 32 / 0) 42%
+      ),
+      linear-gradient(180deg, #3d6189 0%, #2a4b6e 25%, #13283b 55%, #0a1923 75%, #06121a 100%);
+  }
+
+  @media (min-width: 64rem) {
+    .hero-media {
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 16%);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 16%);
+    }
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(90deg, rgb(2 20 32 / 0.9) 0%, rgb(2 20 32 / 0.66) 55%, rgb(2 20 32 / 0.2) 100%),
+      linear-gradient(180deg, rgb(2 20 32 / 0) 55%, rgb(2 20 32 / 0.85) 100%);
+  }
+
+  .btn {
+    @apply inline-flex h-[52px] items-center justify-center gap-[22px] rounded-[4px] px-7 font-display text-[16px] font-bold tracking-[0.01em] uppercase transition-colors duration-200 sm:h-[58px] sm:px-[30px] sm:text-[18px];
+  }
+
+  .btn-primary {
+    @apply bg-brand text-[#1d1505] hover:bg-brand-600;
+  }
+
+  .btn-outline {
+    @apply border-[1.5px] border-white/60 text-white sm:px-[34px] hover:border-brand hover:bg-white/5;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 font-display text-[15px] font-bold tracking-[0.14em] text-brand-ink uppercase;
+  }
+
+  .eyebrow::before {
+    content: '';
+    @apply block h-[2px] w-8 bg-brand;
+  }
+
+  .section-title {
+    @apply font-display text-[34px] leading-[1.08] font-bold uppercase sm:text-[42px] lg:text-[48px];
+  }
+}
